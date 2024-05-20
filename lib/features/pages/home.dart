@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nobetci_eczane/core/config/app_strings.dart';
 import 'package:nobetci_eczane/features/blocs/city_district/district/district_bloc.dart';
+import 'package:nobetci_eczane/features/blocs/pharmacy_bloc/pharmacy_bloc.dart';
 import 'package:nobetci_eczane/features/mixin/home_view_mixin.dart';
 
 class Home extends StatefulWidget {
@@ -20,6 +22,7 @@ class _HomeState extends State<Home> with HomeViewMixin {
   @override
   void initState() {
      districtBloc = BlocProvider.of<DistrictBloc>(context);
+     pharmacyBloc =BlocProvider.of<PharmacyBloc>(context);
     super.initState();
     
   }
@@ -30,19 +33,21 @@ class _HomeState extends State<Home> with HomeViewMixin {
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.background, // AppBar arka plan rengi
           title: Text(
-            AppStrings().pageTitle
+            AppStrings().pageTitle,
+            style: GoogleFonts.openSans()
           ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
-        padding: const EdgeInsets.only(left: 4,right: 2),
+        padding: const EdgeInsets.only(left: 6,right: 3),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 10,),
             //lastUpdate
             lastUpdateBlocBuilder(),
-            const SizedBox(height: 30,),
+            const SizedBox(height: 20,),
             Row(
               children: [
                 Column(
@@ -88,9 +93,12 @@ class _HomeState extends State<Home> with HomeViewMixin {
                 ),
                 child: Text(
                   appStrings.buttonText,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
+                  style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 15
+                    )
+                  )
                   ),
               
               )),
@@ -138,11 +146,13 @@ class pharmacyCard extends StatelessWidget {
       children: [
         Text(
           title.toString(),
-          style: TextStyle(
+          style: GoogleFonts.openSans(
+            textStyle:TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.onPrimary,
           ),
+          )
         ),
         const SizedBox(height: 10),
         Row(
@@ -153,10 +163,12 @@ class pharmacyCard extends StatelessWidget {
             Expanded(
               child: Text(
                 address.toString(),
-                style: TextStyle(
+                style: GoogleFonts.openSans(
+                  textStyle: TextStyle(
                   fontSize: 12,
                   color: Theme.of(context).colorScheme.onPrimary,
                   ),
+                )
                 
               ),
             ),
@@ -170,10 +182,12 @@ class pharmacyCard extends StatelessWidget {
             Expanded(
               child: Text(
                 phone.toString(),
-                style: TextStyle(
+                style: GoogleFonts.openSans(
+                  textStyle:TextStyle(
                   fontSize: 12,
                   color: Theme.of(context).colorScheme.onPrimary,
                   ),
+                )
               ),
             ),
           ],

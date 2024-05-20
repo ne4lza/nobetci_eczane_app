@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nobetci_eczane/core/config/app_strings.dart';
 import 'package:nobetci_eczane/features/blocs/city_district/city/city_bloc.dart';
@@ -15,6 +16,7 @@ mixin HomeViewMixin on State<Home>{
   CityModel? selectedCity;
   DistrictModel? selectedDistrict;
   late final DistrictBloc districtBloc;
+  late final PharmacyBloc pharmacyBloc;
   final AppStrings appStrings = AppStrings();
 
   //Son güncellenme tarihi format methodu
@@ -23,7 +25,6 @@ mixin HomeViewMixin on State<Home>{
     DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm');
     return formatter.format(dateTime);
   }
-
   //Last Update Bloc
   Widget lastUpdateBlocBuilder(){
     return BlocBuilder<LastUpdateBloc,LastUpdateState>(
@@ -32,13 +33,37 @@ mixin HomeViewMixin on State<Home>{
                 return const Center(child: CircularProgressIndicator());
               }
               if(state is LoadedLastUpdateDate){
-                return  Text(
-                 '${appStrings.lastUpdateText}'' ${formatDate(state.data.data.lastUpdated)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15
-              ),
-            );
+                return  Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                         '${appStrings.lastUpdateText}',
+                        style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                          )
+                        )
+                      ),
+                      ),
+                      Center(
+                        child: Text(
+                          '"${formatDate(state.data.data.lastUpdated)}"',
+                          style: GoogleFonts.openSans(
+                          textStyle:TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                          )
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               }
               if(state is FailedLoadLastUpdateDate){
                 return const SizedBox();
@@ -65,6 +90,7 @@ mixin HomeViewMixin on State<Home>{
                           setState(() {
                           selectedCity = newValue!;
                           districtBloc.add(LoadDistricts(newValue.slug.toString()));
+                          selectedDistrict = null;
                             });
                           },
                           items: cityList.map((CityModel city) {
@@ -118,13 +144,33 @@ mixin HomeViewMixin on State<Home>{
                   return const SizedBox();
                 },
               );
-  }
-
+  } 
 
   //pharmacy bloc
   Widget pharmacyBlocBuilder(){
     return BlocBuilder<PharmacyBloc,PharmacyState>(
                 builder: (context, state) {
+                  if(state is NotLoaded){
+                    return Column(
+                      children: [
+                        const SizedBox(height: 10,),
+                        Text(
+                          appStrings.thumbnailText,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 4
+                          )
+                        )
+                          ),
+                        Image.asset(
+                          'lib/core/assets/pharmacy.png',
+                          ),
+                      ],
+                    );
+                  }
                   if(state is LoadingPharmacies){
                     return const Center(
                       child: CircularProgressIndicator(),
