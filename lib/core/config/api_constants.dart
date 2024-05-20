@@ -1,5 +1,5 @@
 class ApiConstants {
-  String apiKey = "3K6dzZ9Chn526neVbPr2M4TBEcwLrEluiYmUxFiPxqrjb1cPsVCR1TBpb8d6";
+  String apiKey = "YOUR_API_KEY";
   String lastUpdateDateEndPoint = "https://www.nosyapi.com/apiv2/service/pharmacies-on-duty/status";
   String cityListEndPoint ="https://www.nosyapi.com/apiv2/service/pharmacies-on-duty/cities";
 
